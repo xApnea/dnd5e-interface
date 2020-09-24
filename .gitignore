@@ -16,3 +16,6 @@ node_modules/
 
 # react bundle
 dist/bundle.js
+
+# api keys
+client/config.json

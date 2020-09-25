@@ -3,8 +3,8 @@ const db = require('./index.js');
 mongoose.Promise = global.Promise;
 
 const userSchema = new mongoose.Schema({
-  email: {type: String, require: true},
-  username: {type: String, require: true},
+  email: {type: String, require: true, unique: true},
+  username: {type: String, require: true, unique: true},
   password: {type: String, required: true, minLength: 6},
   role: String,
   gif: {

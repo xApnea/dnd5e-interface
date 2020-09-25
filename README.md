@@ -1,2 +1,2 @@
-# dnd5e-interface
+# giphy-interface
 Tech demo

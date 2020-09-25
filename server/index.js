@@ -2,9 +2,12 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
-const db = require('../db/index.js');
-const User = require('../db/model.js')
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
+
+const db = require('../db/index.js');
+const User = require('../db/model.js');
+
 
 const app = express();
 
@@ -17,7 +20,8 @@ app.get('/', (req, res) => {
   res.status(200).send('Request was good');
 })
 
-app.post('/users', (req, res) => {
+// Register a new user
+app.post('/users', async (req, res) => {
   let data = req.body;
 
   // Validate user information
@@ -36,8 +40,19 @@ app.post('/users', (req, res) => {
     data.role = 'user';
   }
 
+  // Hash password
+  const salt = await bcrypt.genSalt();
+  const hash = await bcrypt.hash(data.password, salt);
+
+  const newUser = {
+    email: data.email,
+    username: data.username,
+    password: hash,
+    role: data.role
+  }
+
   // try to create a new user with the validate information
-  User.create(data)
+  User.create(newUser)
   .then((result) => {
     console.log(result);
     res.status(200).send(`User: \"${data.username}\" registered with email: \"${data.email}\"`);

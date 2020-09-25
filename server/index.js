@@ -36,8 +36,18 @@ app.post('/users', (req, res) => {
     data.role = 'user';
   }
 
-  res.status(200).send(`User: \"${data.username}\" registered with email: \"${data.email}\"`);
-
+  // try to create a new user with the validate information
+  User.create(data)
+  .then((result) => {
+    console.log(result);
+    res.status(200).send(`User: \"${data.username}\" registered with email: \"${data.email}\"`);
+  })
+  .catch((err) => {
+    console.log(err);
+    // determine whether the email or username is already taken, and send that bacl to client
+    let duplicatedValue = Object.keys(err.keyValue);
+    res.status(500).send(`A user already exists with that ${duplicatedValue[0]}`);
+  })
 })
 
 const port = process.env.PORT || 3000;

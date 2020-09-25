@@ -44,7 +44,7 @@ app.post('/users', (req, res) => {
   })
   .catch((err) => {
     console.log(err);
-    // determine whether the email or username is already taken, and send that bacl to client
+    // determine whether the email or username is already taken
     let duplicatedValue = Object.keys(err.keyValue);
     res.status(500).send(`A user already exists with that ${duplicatedValue[0]}`);
   })

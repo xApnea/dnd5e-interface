@@ -31,7 +31,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>GIF Generator</h1>
+        <div display="inline-block">
+          <h3>GIF Generator</h3>
+          <button>Sign Up</button>
+          <button>Login</button>
+        </div>
         <iframe src={this.state.gif.embed_url} width="480" height="480" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href={this.state.gif.url}>via GIPHY</a></p>
       </div>
     )

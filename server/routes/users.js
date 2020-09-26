@@ -47,4 +47,28 @@ router.post('/register', async (req, res) => {
   })
 })
 
+router.post('/login', async (req, res) => {
+  const data = req.body;
+
+  if (!data.email|| !data.password) {
+    res.status(400).send('Please enter your email and password to login.');
+  }
+
+  User.findOne({email: data.email})
+    .then((user) => {
+      console.log(user);
+      bcrypt.compare(data.password, user.password)
+        .then((isCorrect) => {
+          if (!isCorrect) {
+            res.status(400).send('Password is invalid.');
+          } else {
+            res.status(200).json({username: user.username, email: user.email, role: user.role});
+          }
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('An account with that email does not exist.');
+    })
+})
 module.exports = router;

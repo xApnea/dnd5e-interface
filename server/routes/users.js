@@ -9,13 +9,13 @@ router.post('/register', async (req, res) => {
 
   // Validate user information
   if (!data.email || !data.username || !data.password || !data.confirmPassword) {
-    res.status(400).send('Please fill all of the fields to register.');
+    res.status(400).json({message: 'Please fill all of the fields to register.'});
   }
   if (data.password.length < 6) {
-    res.status(400).send('Password must be at least 6 characters long.');
+    res.status(400).json({message: 'Password must be at least 6 characters long.'});
   }
   if (data.password !== data.confirmPassword) {
-    res.status(400).send('Passwords do not match.');
+    res.status(400).json({message: 'Passwords do not match.'});
   }
 
   //if no role is passed in, default to basic user permission
@@ -38,13 +38,13 @@ router.post('/register', async (req, res) => {
   User.create(newUser)
   .then((result) => {
     console.log(result);
-    res.status(200).send(`User: \"${data.username}\" registered with email: \"${data.email}\"`);
+    res.status(200).json({message: `User: \"${data.username}\" registered with email: \"${data.email}\"`});
   })
   .catch((err) => {
     console.log(err);
     // determine whether the email or username is already taken
     let duplicatedValue = Object.keys(err.keyValue);
-    res.status(500).send(`A user already exists with that ${duplicatedValue[0]}`);
+    res.status(500).json({message: `A user already exists with that ${duplicatedValue[0]}`});
   })
 })
 
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
   const data = req.body;
 
   if (!data.email|| !data.password) {
-    res.status(400).send('Please enter your email and password to login.');
+    res.status(400).json({message: 'Please enter your email and password to login.'});
   }
 
   User.findOne({email: data.email})
@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
       bcrypt.compare(data.password, user.password)
         .then((isCorrect) => {
           if (!isCorrect) {
-            res.status(400).send('Password is invalid.');
+            res.status(400).json({message: 'Password is invalid.'});
           } else {
             const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
             res.status(200).json({
@@ -78,7 +78,8 @@ router.post('/login', async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).send('An account with that email does not exist.');
+      res.status(500).json({message: 'An account with that email does not exist.'});
     })
 })
+
 module.exports = router;

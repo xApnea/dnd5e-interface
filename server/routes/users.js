@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('./../../db/model.js');
 
@@ -56,13 +57,22 @@ router.post('/login', async (req, res) => {
 
   User.findOne({email: data.email})
     .then((user) => {
-      console.log(user);
+      // compare hashed password
       bcrypt.compare(data.password, user.password)
         .then((isCorrect) => {
           if (!isCorrect) {
             res.status(400).send('Password is invalid.');
           } else {
-            res.status(200).json({username: user.username, email: user.email, role: user.role});
+            const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
+            res.status(200).json({
+              token: token,
+              user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role
+              }
+            });
           }
         })
     })

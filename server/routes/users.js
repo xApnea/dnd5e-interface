@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('./../../db/model.js');
+const auth = require('../auth.js');
 
 router.post('/register', async (req, res) => {
   let data = req.body;
@@ -79,6 +80,18 @@ router.post('/login', async (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json({message: 'An account with that email does not exist.'});
+    })
+})
+
+router.delete('/delete', auth, async (req, res) => {
+  console.log(req.user);
+  User.findByIdAndDelete({_id: req.user})
+    .then((deletedUser) => {
+      res.status(200).send({message: 'Successfully deleted user.', user: deletedUser});
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send({message: 'Deletion failed', error: err.message});
     })
 })
 

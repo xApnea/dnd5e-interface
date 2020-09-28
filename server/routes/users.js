@@ -87,12 +87,35 @@ router.delete('/delete', auth, async (req, res) => {
   console.log(req.user);
   User.findByIdAndDelete({_id: req.user})
     .then((deletedUser) => {
+      deletedUser.password = null;
       res.status(200).send({message: 'Successfully deleted user.', user: deletedUser});
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send({message: 'Deletion failed', error: err.message});
     })
+})
+
+router.post('/isTokenValid', async (req, res) => {
+  try {
+    // Check for a token
+    const token = req.header("x-auth-token");
+    if (!token) return res.status(401).json(false);
+
+    // Verify the token
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    if (!verified) return res.status(401).json(false);
+
+    // Ensure that that user still exists
+    const user = await User.findById(verified.id);
+    if (!user) return res.status(500).json({message: 'User does not exist.'});
+
+    // Send true if passes all validation
+    res.status(200).json(true);
+
+  } catch (err) {
+    res.status(500).json({error: err.message});
+  }
 })
 
 module.exports = router;

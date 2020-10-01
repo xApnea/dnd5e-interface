@@ -15,10 +15,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '/../dist')));
 
-app.get('/', (req, res) => {
-  res.status(200).send('Request was good');
-})
-
 app.use('/users', users);
 app.use('/gifs', gifs);
 

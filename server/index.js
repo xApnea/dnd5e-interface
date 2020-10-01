@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const db = require('../db/index.js');
 const users = require('./routes/users.js')
+const gifs = require('./routes/gifs.js')
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/users', users);
+app.use('/gifs', gifs);
 
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => {console.log(`Listening on port: ${port}`)});

@@ -1,41 +1,27 @@
 import React from 'react';
 import axios from 'axios';
-import config from '../config.json';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      gif: {}
-    }
-  }
+import Header from './Header.jsx';
+import Home from './Home.jsx';
+import Login from './Login.jsx';
+import Register from './Register.jsx';
+import Gif from './Gif.jsx';
 
-  componentDidMount() {
-    axios.get('/gifs/trending')
-      .then((res) => {
-        console.log(res);
-        const data = res.data;
-        this.setState({
-          gif : data
-        })
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-  }
-
-  render() {
-    return (
-      <div>
-        <div display="inline-block">
-          <h3>GIF Generator</h3>
-          <button>Sign Up</button>
-          <button>Login</button>
-        </div>
-        <iframe src={this.state.gif.embed_url} width="480" height="480" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href={this.state.gif.url}>via GIPHY</a></p>
-      </div>
-    )
-  }
+function App(props) {
+  return (
+    <div>
+      <Header />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
+          <Route path='/trending' component={Gif} />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  )
 }
 
 export default App;

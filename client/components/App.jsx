@@ -11,14 +11,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://api.giphy.com/v1/gifs/trending', {
-      params: {
-        api_key: config.giphyApiKey
-      }
-    })
+    axios.get('/gifs/trending')
       .then((res) => {
         console.log(res);
-        const data = res.data.data[0];
+        const data = res.data;
         this.setState({
           gif : data
         })

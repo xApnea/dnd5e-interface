@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
 app.use('/users', users);
 app.use('/gifs', gifs);
 
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname, '/../dist/index.html'));
+});
+
 const port = process.env.PORT || 3000;
 var server = app.listen(port, () => {console.log(`Listening on port: ${port}`)});
 

@@ -37,9 +37,16 @@ router.post('/register', async (req, res) => {
 
   // try to create a new user with the validate information
   User.create(newUser)
-  .then((result) => {
-    console.log(result);
-    res.status(200).json({message: `User: \"${data.username}\" registered with email: \"${data.email}\"`});
+  .then((user) => {
+    res.status(200).json({
+      message: 'User successfully registered.',
+      user: {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        role: user.role
+      }
+    });
   })
   .catch((err) => {
     console.log(err);

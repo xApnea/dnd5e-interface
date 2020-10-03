@@ -38,7 +38,7 @@ class Register extends React.Component {
     return (
       <div>
         <h3>Register</h3>
-        <form>
+        <form onSubmit={handleSubmit}>
 
           <label htmlFor='register-email'>Email:
             <input id='register-email' type='email' autoComplete='email' value={this.state.email} onChange={this.handleEmailChange} />

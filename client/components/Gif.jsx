@@ -12,7 +12,6 @@ class Gif extends React.Component {
   componentDidMount() {
     axios.get('/gifs/trending')
       .then((res) => {
-        console.log(res);
         const data = res.data;
         this.setState({
           gif : data

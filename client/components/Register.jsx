@@ -32,13 +32,32 @@ class Register extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+    try {
+      let result = await Axios.post('users/register', {
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword
+      })
+      alert(`User: ${result.data.user.username} successfully registered! Please log in to your new account.`)
+
+      this.setState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: ''
+      });
+    }
+    catch(error) {
+      console.log(error);
+    }
   }
 
   render() {
     return (
       <div>
         <h3>Register</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
 
           <label htmlFor='register-email'>Email:
             <input id='register-email' type='email' autoComplete='email' value={this.state.email} onChange={this.handleEmailChange} />
@@ -49,8 +68,8 @@ class Register extends React.Component {
           </label>
 
           <label htmlFor='register-password'>Password:
-            <input id='register-password' type='password' value={this.state.password} onChange={this.handlePasswordChange} autoComplete='new-password'/>
-            <input id='register-confirmPassword' type='password' placeholder='Confirm Password' value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} />
+            <input id='register-password' type='password' autoComplete='new-password' value={this.state.password} onChange={this.handlePasswordChange} />
+            <input id='register-confirmPassword' type='password' autoComplete='new-password' placeholder='Confirm Password' value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} />
           </label>
 
           <input type='submit' value='Register'/>

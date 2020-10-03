@@ -26,13 +26,12 @@ function App() {
       });
 
       if (tokenResponse.data) {
-        let userData = await axios.get('/users', {
+        let user = await axios.get('/users', {
           headers: { 'x-auth-token': token }
         });
-
         setUserData({
-          token: userData.token,
-          user: userData.user
+          token: token,
+          user: user.data.user
         });
       }
     }

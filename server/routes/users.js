@@ -84,22 +84,29 @@ router.post('/login', async (req, res) => {
 })
 
 router.delete('/delete', auth, async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   User.findByIdAndDelete({_id: req.user})
     .then((deletedUser) => {
-      deletedUser.password = null;
-      res.status(200).send({message: 'Successfully deleted user.', user: deletedUser});
+      res.status(200).json({
+        message: 'Successfully deleted user.',
+        user: {
+          id: deletedUser._id,
+          username: deletedUser.username,
+          email: deletedUser.email,
+          role: deletedUser.role
+        }
+      });
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send({message: 'Deletion failed', error: err.message});
+      res.status(500).json({message: 'Deletion failed', error: err.message});
     })
 })
 
 router.post('/isTokenValid', async (req, res) => {
   try {
     // Check for a token
-    const token = req.header("x-auth-token");
+    const token = req.header('x-auth-token');
     if (!token) return res.status(401).json(false);
 
     // Verify the token
@@ -117,5 +124,27 @@ router.post('/isTokenValid', async (req, res) => {
     res.status(500).json({error: err.message});
   }
 })
+
+router.get('/', auth, (req, res) => {
+  User.findById(req.user)
+    .then((user) => {
+      res.status(200).json({
+        message: 'Successfully found logged-in user',
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role
+        }
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send({
+        message: 'Could not find user',
+        error: err.message
+      });
+    })
+});
 
 module.exports = router;

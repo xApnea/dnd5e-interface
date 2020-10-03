@@ -21,13 +21,20 @@ function App() {
         localStorage.setItem('auth-token', '');
         token = '';
       }
-      let tokenResponse = await axios.post('/users/isTokenValid', null, {headers: {'x-auth-token' : token}});
-
-      let userData = tokenResponse.data ? await axios.get('/users');
-      setUserData({
-        token: userData.token,
-        user: userData.user
+      let tokenResponse = await axios.post('/users/isTokenValid', null, {
+        headers: { 'x-auth-token': token }
       });
+
+      if (tokenResponse.data) {
+        let userData = await axios.get('/users', {
+          headers: { 'x-auth-token': token }
+        });
+
+        setUserData({
+          token: userData.token,
+          user: userData.user
+        });
+      }
     }
 
     checkLoggedIn();

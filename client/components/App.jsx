@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Header from './Header.jsx';
@@ -21,12 +21,12 @@ function App() {
         localStorage.setItem('auth-token', '');
         token = '';
       }
-      let tokenResponse = await axios.post('/users/isTokenValid', null, {
+      let tokenResponse = await Axios.post('/users/isTokenValid', null, {
         headers: { 'x-auth-token': token }
       });
 
       if (tokenResponse.data) {
-        let user = await axios.get('/users', {
+        let user = await Axios.get('/users', {
           headers: { 'x-auth-token': token }
         });
         setUserData({

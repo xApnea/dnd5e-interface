@@ -9,7 +9,13 @@ function Header(props) {
   const home = () => history.push('/');
   const register = () => history.push('/register');
   const login = () => history.push('/login');
-  const logout = () => history.push('/logout');
+  const logout = () => {
+    setUserData({
+      token: undefined,
+      user: undefined
+    })
+    localStorage.setItem('auth-token', '');
+  };
 
   return (
     <div className='header'>
@@ -17,7 +23,7 @@ function Header(props) {
       <nav>
         {
           userData.user
-          ? <button>Log Out</button>
+          ? <button onClick={logout}>Log Out</button>
           : <>
               <button onClick={register}>Register</button>
               <button onClick={login}>Log In</button>

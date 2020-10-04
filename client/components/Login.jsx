@@ -1,49 +1,62 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
+import UserContext from './context/Context.jsx';
 
-class Login extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      email: '',
-      password: '',
-    }
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+function Login() {
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+
+  const { setUserData } = useContext(UserContext);
+  const history = useHistory();
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   }
 
-  handleEmailChange(event) {
-    this.setState({email : event.target.value})
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   }
 
-  handlePasswordChange(event) {
-    this.setState({password : event.target.value})
-  }
-
-  async handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      let result = await Axios.post('users/login', {
+        email: email,
+        password: password
+      })
+      if (result.data) {
+        setUserData({
+          token: result.data.token,
+          user: result.data.user
+        })
+        localStorage.setItem('auth-token', result.data.token);
+        history.push('/');
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  render() {
-    return (
-      <div>
-        <h3>Login</h3>
-        <form onSubmit={this.handleSubmit}>
+  return (
+    <div>
+      <h3>Login</h3>
+      <form onSubmit={handleSubmit}>
 
-          <label htmlFor='login-email'>Email:
-            <input id='login-email' type='email' autoComplete='email' value={this.state.email} onChange={this.handleEmailChange} />
-          </label>
+        <label htmlFor='login-email'>Email:
+          <input id='login-email' type='email' autoComplete='email' value={email} onChange={handleEmailChange} />
+        </label>
 
-          <label htmlFor='login-password'>Password:
-            <input id='login-password' type='password' autoComplete='current-password' value={this.state.password} onChange={this.handlePasswordChange} />
-          </label>
+        <label htmlFor='login-password'>Password:
+          <input id='login-password' type='password' autoComplete='current-password' value={password} onChange={handlePasswordChange} />
+        </label>
 
-          <input type='submit' value='Login'/>
+        <input type='submit' value='Login'/>
 
-        </form>
-      </div>
-    )
-  }
+      </form>
+    </div>
+  )
 }
 
 export default Login;

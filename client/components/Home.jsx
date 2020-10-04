@@ -1,11 +1,21 @@
-import React from 'react';
-import Gif from './Gif.jsx';
+import React, { useContext } from 'react';
 
-function Home(props) {
+import Gif from './Gif.jsx';
+import UserContext from './context/Context.jsx';
+
+function Home() {
+  const { userData } = useContext(UserContext);
+
   return (
     <div>
-      <h3>The Home Page</h3>
-      <Gif />
+      <h3>Home</h3>
+      {
+          userData.user
+          ? <Gif />
+          :
+            <p>Log In to get started!</p>
+        }
+
     </div>
   )
 }

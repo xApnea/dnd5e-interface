@@ -1,3 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #292d3e;
+  color: #bebebe;
+}
+
+a {
+  color: #bebebe;
+}
+
 .header {
+  padding: 0px;
+  margin: 0 auto;
+  max-width: 900px;
+  height: 50px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e212e;
+  color: #bebebe;
+}
+
+#title {
+  margin: 0;
+  padding: 0 1rem;
+  color: #ffffff;
+}
+
+.navButtonContainer {
+  height: 100%;
+  display: flex;
+}
+
+.headerButtons {
+  padding: 0 1rem;
+  background-color: #292d3e;
+  color: #ffffff;
+  font-size: 1.1rem;
+  border: 1px solid #1e212e;
+}
+
+.headerButtons:hover {
+  background-color: #1e212e;
+}
+
+.form label,
+.form input,
+.form select {
+  display: block;
+}
+.form input,
+.form select {
+  margin-bottom: 1rem;
+}
+.form label {
+  margin-bottom: 0.2rem;
+}
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form select {
+  width: 50%;
+  padding: 0.3rem;
+  border: 1px solid #c2c2c2;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  font-size: 1.1rem;
+}
+.form input:focus {
+  border: 1px solid #50a4e9;
+  box-shadow: inset 0px 0px 5px rgba(38, 142, 228, 0.5);
+  outline: none;
+}
+.form input[type="submit"] {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #9b9b9b;
+  border-radius: 8px;
+  background-color: #bebebe;
+  font-size: 1.1rem;
+}
+.form input[type="submit"]:hover {
+  background-color: #9b9b9b;
+}
+
+.gifButton {
+  padding: 1rem 1rem 1rem 1rem;
+  background-color: #292d3e;
+  color: #ffffff;
+  font-size: 1rem;
+  border: 1px solid #1e212e;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.gifButton:hover {
+  background-color: #1e212e;
+}
+
+.gifContainer {
+  margin-left: 1rem;
 }

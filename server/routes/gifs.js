@@ -8,7 +8,8 @@ router.get('/trending', (req, res) => {
     }
   })
     .then((result) => {
-      const data = result.data.data[0];
+      const randomIndex = Math.floor(Math.random() * Math.floor(result.data.data.length));
+      const data = result.data.data[randomIndex];
       return res.status(200).json(data);
     })
     .catch((err) => {

@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const axios = require('axios');
 
+const User = require('./../../db/model.js');
+
 router.get('/trending', (req, res) => {
   axios.get('https://api.giphy.com/v1/gifs/trending', {
     params: {
@@ -17,5 +19,32 @@ router.get('/trending', (req, res) => {
       return res.status(500).json({error: err.message});
     })
 });
+
+router.patch('/save', (req, res) => {
+  console.log(req.body.id);
+  console.log(req.body.gif);
+
+  User.findByIdAndUpdate(req.body.id, { gif: req.body.gif }, { new: true })
+  .then((user) => {
+    console.log(user);
+    res.status(200).json({
+      message: 'Saved Gif',
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        gif: user.gif
+      }
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send({
+      message: 'Could not find user',
+      error: err.message
+    });
+  })
+})
 
 module.exports = router;

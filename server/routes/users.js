@@ -32,7 +32,8 @@ router.post('/register', async (req, res) => {
     email: data.email,
     username: data.username,
     password: hash,
-    role: data.role
+    role: data.role,
+    gif: {}
   }
 
   // try to create a new user with the validate information
@@ -44,7 +45,8 @@ router.post('/register', async (req, res) => {
         id: user._id,
         email: user.email,
         username: user.username,
-        role: user.role
+        role: user.role,
+        gif: user.gif
       }
     });
   })
@@ -78,7 +80,8 @@ router.post('/login', async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                gif: user.gif
               }
             });
           }
@@ -141,7 +144,8 @@ router.get('/', auth, (req, res) => {
           id: user._id,
           username: user.username,
           email: user.email,
-          role: user.role
+          role: user.role,
+          gif: user.gif
         }
       });
     })

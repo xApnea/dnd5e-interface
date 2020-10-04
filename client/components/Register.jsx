@@ -14,6 +14,7 @@ class Register extends React.Component {
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
+    this.handleRoleChange = this.handleRoleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -29,6 +30,9 @@ class Register extends React.Component {
   handleConfirmPasswordChange(event) {
     this.setState({confirmPassword : event.target.value})
   }
+  handleRoleChange(event) {
+    this.setState({role: event.target.value})
+  }
 
   async handleSubmit(event) {
     event.preventDefault();
@@ -37,7 +41,8 @@ class Register extends React.Component {
         email: this.state.email,
         username: this.state.username,
         password: this.state.password,
-        confirmPassword: this.state.confirmPassword
+        confirmPassword: this.state.confirmPassword,
+        role: this.state.role
       })
       alert(`User: ${result.data.user.username} successfully registered! Please log in to your new account.`)
 
@@ -45,7 +50,8 @@ class Register extends React.Component {
         email: '',
         username: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: ''
       });
     }
     catch(error) {
@@ -70,6 +76,14 @@ class Register extends React.Component {
           <label htmlFor='register-password'>Password:
             <input id='register-password' type='password' autoComplete='new-password' value={this.state.password} onChange={this.handlePasswordChange} />
             <input id='register-confirmPassword' type='password' autoComplete='new-password' placeholder='Confirm Password' value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} />
+          </label>
+
+          <label htmlFor='register-role'>Role:
+            <select id='register-role' value={this.state.role} defaultValue='user' onChange={this.handleRoleChange}>
+              <option value='user'>User</option>
+              <option value='powerUser'>Power User</option>
+              <option value='admin'>Admin</option>
+            </select>
           </label>
 
           <input type='submit' value='Register'/>

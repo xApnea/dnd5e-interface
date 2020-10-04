@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
+const auth = require('../auth.js');
 
 const User = require('./../../db/model.js');
 
@@ -20,12 +21,11 @@ router.get('/trending', (req, res) => {
     })
 });
 
-router.patch('/save', (req, res) => {
+router.patch('/save', auth, (req, res) => {
   const data = req.body;
 
-  User.findByIdAndUpdate(data.id, { gif: data.gif }, { new: true, useFindAndModify: false })
+  User.findByIdAndUpdate(req.user, { gif: data.gif }, { new: true, useFindAndModify: false })
   .then((user) => {
-    console.log(user);
     res.status(200).json({
       message: 'Saved Gif',
       user: {

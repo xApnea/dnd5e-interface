@@ -39,6 +39,7 @@ function Gif() {
   }
 
   useEffect(() => {
+    // Only fetch a new, random gif if the user does not have one saved
     if (!userData.user.gif.url) {
       getANewTrendingGif();
     } else {

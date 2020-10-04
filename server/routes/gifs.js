@@ -21,10 +21,9 @@ router.get('/trending', (req, res) => {
 });
 
 router.patch('/save', (req, res) => {
-  console.log(req.body.id);
-  console.log(req.body.gif);
+  const data = req.body;
 
-  User.findByIdAndUpdate(req.body.id, { gif: req.body.gif }, { new: true })
+  User.findByIdAndUpdate(data.id, { gif: data.gif }, { new: true, useFindAndModify: false })
   .then((user) => {
     console.log(user);
     res.status(200).json({

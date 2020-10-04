@@ -50,9 +50,9 @@ function Gif() {
 
   return (
     <div>
-      <button onClick={getANewTrendingGif}>Get New</button>
-      <button onClick={saveGif}>Save Gif</button>
-      <div>
+      <button className='gifButton' onClick={getANewTrendingGif}>Get New</button>
+      <button className='gifButton' onClick={saveGif}>Save Gif</button>
+      <div className='gifContainer'>
         <iframe src={gif.embed_url} width="480" height="480" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
         <p><a href={gif.url}>via GIPHY</a></p>
       </div>

@@ -19,14 +19,14 @@ function Header(props) {
 
   return (
     <div className='header'>
-      <h3 onClick={home}>GIF Generator</h3>
-      <nav>
+      <h3 onClick={home} id='title'>GIF Generator</h3>
+      <nav className='navButtonContainer'>
         {
           userData.user
-          ? <button onClick={logout}>Log Out</button>
+          ? <button className='headerButtons' onClick={logout}>Log Out</button>
           : <>
-              <button onClick={register}>Register</button>
-              <button onClick={login}>Log In</button>
+              <button className='headerButtons' onClick={register}>Register</button>
+              <button className='headerButtons' onClick={login}>Log In</button>
             </>
         }
       </nav>

@@ -42,7 +42,7 @@ function Login() {
   return (
     <div>
       <h3>Login</h3>
-      <form onSubmit={handleSubmit}>
+      <form className='form' onSubmit={handleSubmit}>
 
         <label htmlFor='login-email'>Email:
           <input id='login-email' type='email' autoComplete='email' value={email} onChange={handleEmailChange} />

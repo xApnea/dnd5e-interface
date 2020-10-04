@@ -60,7 +60,7 @@ function Register() {
   return (
     <div>
       <h3>Register</h3>
-      <form onSubmit={handleSubmit}>
+      <form className='form' onSubmit={handleSubmit}>
 
         <label htmlFor='register-email'>Email:
           <input id='register-email' type='email' autoComplete='email' value={email} onChange={handleEmailChange} />

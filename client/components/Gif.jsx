@@ -1,34 +1,34 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
-class Gif extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      gif: {}
-    }
-  }
+function Gif() {
+  const [gif, setGif] = useState({});
 
-  componentDidMount() {
+  const getANewTrendingGif = () => {
     axios.get('/gifs/trending')
-      .then((res) => {
-        const data = res.data;
-        this.setState({
-          gif : data
-        })
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+    .then((res) => {
+      const data = res.data;
+      setGif(data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }
 
-  render() {
-    return (
+  useEffect(() => {
+    getANewTrendingGif();
+  }, []);
+
+
+  return (
+    <div>
+      <button onClick={getANewTrendingGif}>Get New</button>
       <div>
-        <iframe src={this.state.gif.embed_url} width="480" height="480" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href={this.state.gif.url}>via GIPHY</a></p>
+        <iframe src={gif.embed_url} width="480" height="480" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
+        <p><a href={gif.url}>via GIPHY</a></p>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Gif;

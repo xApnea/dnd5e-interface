@@ -1,58 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 
-class Register extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      email: '',
-      username: '',
-      password: '',
-      confirmPassword: ''
-    }
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
-    this.handleRoleChange = this.handleRoleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+function Register {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('user');
+
+  const history = useHistory();
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  }
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  }
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+  }
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
   }
 
-  handleEmailChange(event) {
-    this.setState({email : event.target.value})
-  }
-  handleUsernameChange(event) {
-    this.setState({username : event.target.value})
-  }
-  handlePasswordChange(event) {
-    this.setState({password : event.target.value})
-  }
-  handleConfirmPasswordChange(event) {
-    this.setState({confirmPassword : event.target.value})
-  }
-  handleRoleChange(event) {
-    this.setState({role: event.target.value})
-  }
-
-  async handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       let result = await Axios.post('users/register', {
-        email: this.state.email,
-        username: this.state.username,
-        password: this.state.password,
-        confirmPassword: this.state.confirmPassword,
-        role: this.state.role
+        email: email,
+        username: username,
+        password: password,
+        confirmPassword: confirmPassword,
+        role: role
       })
       alert(`User: ${result.data.user.username} successfully registered! Please log in to your new account.`)
 
-      this.setState({
-        email: '',
-        username: '',
-        password: '',
-        confirmPassword: '',
-        role: ''
-      });
+      //useHistory to redirect to login
     }
     catch(error) {
       console.log(error);
@@ -63,23 +50,23 @@ class Register extends React.Component {
     return (
       <div>
         <h3>Register</h3>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
 
           <label htmlFor='register-email'>Email:
-            <input id='register-email' type='email' autoComplete='email' value={this.state.email} onChange={this.handleEmailChange} />
+            <input id='register-email' type='email' autoComplete='email' value={email} onChange={handleEmailChange} />
           </label>
 
           <label htmlFor='register-username'>Username:
-            <input id='register-username' type='text' autoComplete='username' value={this.state.username} onChange={this.handleUsernameChange} />
+            <input id='register-username' type='text' autoComplete='username' value={username} onChange={handleUsernameChange} />
           </label>
 
           <label htmlFor='register-password'>Password:
-            <input id='register-password' type='password' autoComplete='new-password' value={this.state.password} onChange={this.handlePasswordChange} />
-            <input id='register-confirmPassword' type='password' autoComplete='new-password' placeholder='Confirm Password' value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} />
+            <input id='register-password' type='password' autoComplete='new-password' value={password} onChange={handlePasswordChange} />
+            <input id='register-confirmPassword' type='password' autoComplete='new-password' placeholder='Confirm Password' value={confirmPassword} onChange={handleConfirmPasswordChange} />
           </label>
 
           <label htmlFor='register-role'>Role:
-            <select id='register-role' value={this.state.role} defaultValue='user' onChange={this.handleRoleChange}>
+            <select id='register-role' value={role} defaultValue='user' onChange={handleRoleChange}>
               <option value='user'>User</option>
               <option value='powerUser'>Power User</option>
               <option value='admin'>Admin</option>

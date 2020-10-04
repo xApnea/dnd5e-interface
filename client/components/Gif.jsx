@@ -1,18 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
 function Gif() {
   const [gif, setGif] = useState({});
 
-  const getANewTrendingGif = () => {
-    axios.get('/gifs/trending')
-    .then((res) => {
-      const data = res.data;
+  const getANewTrendingGif = async () => {
+    try {
+      let result = await Axios.get('/gifs/trending');
+      const data = result.data;
       setGif(data);
-    })
-    .catch((err) => {
+    } catch(err) {
       console.error(err);
-    })
+    }
   }
 
   useEffect(() => {

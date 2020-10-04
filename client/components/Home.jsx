@@ -6,6 +6,20 @@ import UserContext from './context/Context.jsx';
 function Home() {
   const { userData } = useContext(UserContext);
 
+  let role;
+  if (userData.user) {
+    switch(userData.user.role) {
+      case 'powerUser':
+        role = 'Power User';
+        break;
+      case 'admin':
+        role = 'Admin';
+        break;
+      default:
+        role = 'User';
+    }
+  }
+
   return (
     <div>
       <h3>Home</h3>
@@ -13,7 +27,7 @@ function Home() {
           userData.user
           ? <div>
               <h4>{`Welcome, ${userData.user.username}!`}</h4>
-              <p>{`Role: ${userData.user.role}`}</p>
+              <p>{`Role: ${role}`}</p>
               <Gif />
             </div>
           :

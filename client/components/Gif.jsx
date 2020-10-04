@@ -17,24 +17,33 @@ function Gif() {
   }
 
   const saveGif = async () => {
-    console.log(userData);
     try {
       let result = await Axios.patch('/gifs/save', {
-        id: userData.user.id,
         gif: {
           url: gif.url,
           embed_url: gif.embed_url
         }
+      }, {
+        headers: {
+          'x-auth-token': userData.token
+        }
       });
-      console.log(result);
-      // Set userData to saved gif
+
+      // Update userData to include new saved gif
+      let updatedUserData = userData;
+      updatedUserData.user.gif = result.data.user.gif;
+      setUserData(updatedUserData);
     } catch(err) {
       console.error(err);
     }
   }
 
   useEffect(() => {
-    getANewTrendingGif();
+    if (!userData.user.gif.url) {
+      getANewTrendingGif();
+    } else {
+      setGif(userData.user.gif);
+    }
   }, []);
 
 

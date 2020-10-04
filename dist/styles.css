@@ -10,10 +10,14 @@ a {
   color: #bebebe;
 }
 
-.header {
-  padding: 0px;
+.container {
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 500px;
+}
+
+.header {
+  width: 100%;
+  padding: 0px;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -61,7 +65,7 @@ a {
 .form input[type="email"],
 .form input[type="password"],
 .form select {
-  width: 50%;
+  width: 100%;
   padding: 0.3rem;
   border: 1px solid #c2c2c2;
   border-radius: 8px;
@@ -98,6 +102,6 @@ a {
   background-color: #1e212e;
 }
 
-.gifContainer {
+/* .gifContainer {
   margin-left: 1rem;
-}
+} */

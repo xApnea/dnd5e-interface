@@ -21,18 +21,21 @@ function App() {
         localStorage.setItem('auth-token', '');
         token = '';
       }
-      let tokenResponse = await Axios.post('/users/isTokenValid', null, {
-        headers: { 'x-auth-token': token }
-      });
-
-      if (tokenResponse.data) {
-        let user = await Axios.get('/users', {
+      try {
+        let tokenResponse = await Axios.post('/users/isTokenValid', null, {
           headers: { 'x-auth-token': token }
         });
-        setUserData({
-          token: token,
-          user: user.data.user
-        });
+        if (tokenResponse.data) {
+          let user = await Axios.get('/users', {
+            headers: { 'x-auth-token': token }
+          });
+          setUserData({
+            token: token,
+            user: user.data.user
+          });
+        }
+      } catch (error) {
+        console.log('User is not logged in.');
       }
     }
 

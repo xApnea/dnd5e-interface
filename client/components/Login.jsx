@@ -2,10 +2,12 @@ import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import UserContext from './context/Context.jsx';
+import ErrorNotice from './ErrorNotice.jsx';
 
 function Login() {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const [ error, setError] = useState();
 
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
@@ -35,13 +37,18 @@ function Login() {
       }
 
     } catch (err) {
-      console.log(err);
+      if (err.response.data.message) {
+        setError(err.response.data.message);
+      }
     }
   }
 
   return (
     <div>
       <h3>Login</h3>
+      {error && (
+        <ErrorNotice message={error} clearError={() => setError(undefined)} />
+      )}
       <form className='form' onSubmit={handleSubmit}>
 
         <label htmlFor='login-email'>Email:

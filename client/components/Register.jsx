@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import UserContext from './context/Context.jsx';
+import ErrorNotice from './ErrorNotice.jsx';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -9,6 +10,8 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('user');
+
+  const [ error, setError] = useState();
 
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
@@ -52,14 +55,19 @@ function Register() {
         history.push('/');
       }
     }
-    catch(error) {
-      console.log(error);
+    catch(err) {
+      if (err.response.data.message) {
+        setError(err.response.data.message);
+      }
     }
   }
 
   return (
     <div>
       <h3>Register</h3>
+      {error && (
+        <ErrorNotice message={error} clearError={() => setError(undefined)} />
+      )}
       <form className='form' onSubmit={handleSubmit}>
 
         <label htmlFor='register-email'>Email:

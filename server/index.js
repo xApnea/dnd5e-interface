@@ -5,8 +5,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const db = require('../db/index.js');
-const users = require('./routes/users.js')
-const gifs = require('./routes/gifs.js')
+const users = require('./routes/users.js');
+const gifs = require('./routes/gifs.js');
 
 const app = express();
 
